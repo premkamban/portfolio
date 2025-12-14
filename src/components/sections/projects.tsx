@@ -3,17 +3,30 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Accordion, AccordionItem } from "@/components/ui/accordion"
 import { motion } from "framer-motion"
 import { ExternalLink, Github } from "lucide-react"
 import Link from "next/link"
 
 const projects = [
     {
-        title: "AI-Driven SDLC Pipeline",
+        title: "AI driven SLDC pipeline(nexus-rag)",
         description: "A custom MCP server connecting PO, Figma, and Azure Boards to automate code generation and documentation, achieving ~97% delivery efficiency.",
         tags: ["MCP Server", "AI Agents", "Azure DevOps", "Figma API"],
         link: "#",
-        github: "#"
+        github: "https://github.com/premkamban/nexus-rag",
+        hasAccordion: true,
+        role: "Technical Architect | GenAI Platform",
+        tech: ["MCP", "LangGraph", "LangChain", "Vector DB", "Ollama", "OpenAI-compatible APIs"],
+        highlights: [
+            "Designed an MCP-based agentic RAG platform to centralize organizational knowledge across codebases, BRDs, Figma designs, and SDLC artifacts.",
+            "Built a tool-driven MCP server enabling IDEs (Cursor/VS Code), chat interfaces, and local LLMs (Ollama) to query organizational knowledge through standardized contracts.",
+            "Implemented agent orchestration using LangGraph, including intent routing, policy enforcement, component discovery, and generation workflows.",
+            "Enabled offline RAG for curated, versioned enterprise knowledge and online RAG for assisted generation with governance controls.",
+            "Designed component and variant detection logic to prevent duplicate code/design generation by checking existing artifacts via vector similarity + metadata.",
+            "Introduced a gated ingestion pipeline to ensure only validated AI outputs are promoted to the authoritative knowledge base.",
+            "Architected the system for LLM-agnostic usage, allowing seamless switching between hosted and local models."
+        ]
     },
     {
         title: "Live Streaming Platform Migration",
@@ -39,6 +52,7 @@ export function Projects() {
                 <p className="mt-4 text-muted-foreground">Key initiatives and architectural achievements.</p>
             </div>
 
+            {/* Card Projects */}
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {projects.map((project, index) => (
                     <motion.div
@@ -54,13 +68,40 @@ export function Projects() {
                                 <CardDescription className="mt-2">{project.description}</CardDescription>
                             </CardHeader>
                             <CardContent className="flex-1">
-                                <div className="flex flex-wrap gap-2">
-                                    {project.tags.map((tag) => (
-                                        <Badge key={tag} variant="secondary" className="text-xs">
-                                            {tag}
-                                        </Badge>
-                                    ))}
-                                </div>
+                                {project.hasAccordion && project.highlights ? (
+                                    <Accordion>
+                                        <AccordionItem title="View Details" defaultOpen={false}>
+                                            <div className="space-y-4 pt-2">
+                                                <div>
+                                                    <p className="text-sm font-medium text-primary mb-2">{project.role}</p>
+                                                    <div className="flex flex-wrap gap-2 mb-4">
+                                                        {project.tech.map((tech) => (
+                                                            <Badge key={tech} variant="secondary" className="text-xs">
+                                                                {tech}
+                                                            </Badge>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-semibold mb-3">Highlights</h4>
+                                                    <ul className="space-y-2 list-disc list-inside text-sm text-muted-foreground">
+                                                        {project.highlights.map((highlight, idx) => (
+                                                            <li key={idx}>{highlight}</li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </AccordionItem>
+                                    </Accordion>
+                                ) : (
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.tags.map((tag) => (
+                                            <Badge key={tag} variant="secondary" className="text-xs">
+                                                {tag}
+                                            </Badge>
+                                        ))}
+                                    </div>
+                                )}
                             </CardContent>
                             <CardFooter className="flex gap-4">
                                 <Button variant="outline" size="sm" className="w-full" asChild>

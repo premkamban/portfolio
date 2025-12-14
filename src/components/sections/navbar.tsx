@@ -2,8 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Linkedin, Github } from "lucide-react"
 
 export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -11,65 +10,102 @@ export function Navbar() {
     const navItems = [
         { name: "Experience", href: "#experience" },
         { name: "Skills", href: "#skills" },
+        { name: "Certifications", href: "#certifications" },
         { name: "Projects", href: "#projects" },
         { name: "Contact", href: "#contact" },
     ]
 
+    const socialLinks = [
+        { name: "LinkedIn", href: "https://www.linkedin.com/in/premkamban/", icon: Linkedin },
+        { name: "GitHub", href: "https://github.com/premkamban", icon: Github },
+    ]
+
     return (
         <nav className="fixed top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container flex h-14 max-w-screen-2xl items-center">
-                <div className="mr-4 hidden md:flex">
-                    <Link href="/" className="mr-6 flex items-center space-x-2">
-                        <span className="hidden font-bold sm:inline-block">
+            <div className="container mx-auto flex h-14 max-w-screen-2xl items-center justify-between px-4">
+                {/* Left side - Logo & Navigation */}
+                <div className="flex items-center gap-8">
+                    <Link href="/" className="flex items-center">
+                        <span className="font-bold text-lg">
                             Prem Kamban
                         </span>
                     </Link>
-                    <nav className="flex items-center gap-6 text-sm font-medium">
+                    <nav className="hidden md:flex items-center gap-6">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className="transition-colors hover:text-foreground/80 text-foreground/60"
+                                className="text-sm font-medium text-foreground/60 transition-colors hover:text-foreground/90"
                             >
                                 {item.name}
                             </Link>
                         ))}
                     </nav>
                 </div>
-                <button
-                    className="inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 md:hidden"
-                    onClick={() => setIsOpen(!isOpen)}
-                >
-                    <span className="sr-only">Open main menu</span>
-                    {isOpen ? (
-                        <X className="h-6 w-6" aria-hidden="true" />
-                    ) : (
-                        <Menu className="h-6 w-6" aria-hidden="true" />
-                    )}
-                </button>
-                <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-                    <div className="w-full flex-1 md:w-auto md:flex-none">
-                        {/* Add search or other items here if needed */}
+
+                {/* Right side - Social Icons & Mobile Menu */}
+                <div className="flex items-center gap-4">
+                    {/* Social Media Icons - Desktop */}
+                    <div className="hidden md:flex items-center gap-2">
+                        {socialLinks.map((social) => (
+                            <Link
+                                key={social.name}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center justify-center rounded-md p-2 text-foreground/60 transition-colors hover:bg-accent hover:text-foreground"
+                                aria-label={social.name}
+                            >
+                                <social.icon className="h-5 w-5" />
+                            </Link>
+                        ))}
                     </div>
-                    <Button variant="outline" asChild>
-                        <Link href="https://www.linkedin.com/in/premkamban/" target="_blank">LinkedIn</Link>
-                    </Button>
+
+                    {/* Mobile Menu Button */}
+                    <button
+                        className="inline-flex items-center justify-center rounded-md p-2 text-foreground/60 transition-colors hover:bg-accent hover:text-foreground md:hidden"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        {isOpen ? (
+                            <X className="h-6 w-6" />
+                        ) : (
+                            <Menu className="h-6 w-6" />
+                        )}
+                    </button>
                 </div>
             </div>
+
             {/* Mobile Menu */}
             {isOpen && (
-                <div className="md:hidden">
-                    <div className="space-y-1 px-2 pb-3 pt-2 sm:px-3">
+                <div className="border-t border-border/40 md:hidden">
+                    <div className="container mx-auto px-4 py-4 space-y-1">
                         {navItems.map((item) => (
                             <Link
                                 key={item.href}
                                 href={item.href}
-                                className="block rounded-md px-3 py-2 text-base font-medium text-foreground/70 hover:bg-accent hover:text-accent-foreground"
+                                className="block rounded-md px-3 py-2 text-base font-medium text-foreground/70 transition-colors hover:bg-accent hover:text-accent-foreground"
                                 onClick={() => setIsOpen(false)}
                             >
                                 {item.name}
                             </Link>
                         ))}
+                        <div className="flex items-center gap-4 pt-4 border-t border-border/40">
+                            {socialLinks.map((social) => (
+                                <Link
+                                    key={social.name}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center rounded-md p-2 text-foreground/60 transition-colors hover:bg-accent hover:text-foreground"
+                                    aria-label={social.name}
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    <social.icon className="h-5 w-5" />
+                                    <span className="ml-2 text-sm font-medium">{social.name}</span>
+                                </Link>
+                            ))}
+                        </div>
                     </div>
                 </div>
             )}

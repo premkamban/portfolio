@@ -79,21 +79,22 @@ export function Skills() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
+                    className="flex items-start"
                 >
-                    <Card className="h-full border-indigo-500/50 bg-indigo-500/5">
+                    <Card className="h-full w-full border-indigo-500/50 bg-indigo-500/5">
                         <CardHeader>
-                            <CardTitle className="text-indigo-400">Currently Learning / Preparing</CardTitle>
+                            <CardTitle className="text-lg text-indigo-400">Active Projects & Development</CardTitle>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-4">
                                 {learning.map((group, idx) => (
                                     <div key={idx}>
-                                        <h4 className="mb-2 font-semibold text-foreground">{group.category}</h4>
-                                        <ul className="space-y-2">
+                                        <h4 className="mb-3 text-base font-semibold text-foreground">{group.category}</h4>
+                                        <ul className="space-y-2.5">
                                             {group.items.map((item, i) => (
-                                                <li key={i} className="flex items-start text-sm text-muted-foreground">
-                                                    <span className="mr-2 mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
-                                                    {item}
+                                                <li key={i} className="flex items-start text-sm leading-relaxed text-muted-foreground">
+                                                    <span className="mr-2.5 mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-indigo-500" />
+                                                    <span>{item}</span>
                                                 </li>
                                             ))}
                                         </ul>
